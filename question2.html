@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>Tag Matcher</title>
+</head>
+<body>
+<h2>HTML Tag Regex</h2>
+<textarea id="input" rows="6" cols="60" placeholder="Write your tags here..."></textarea>
+<br/>
+<button onclick="testingRegex()">Test Regex</button>
+<h3>Results:</h3>
+<ul id="results"></ul>
+<script>
+function testingRegex() {
+  const input = document.getElementById('input').value.trim();
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  const regex = /^<\s*([a-zA-Z][\w-]*)(?:\s+[^\s=>\/]+(?:=(?:"[^"]*"|'[^']*'))?)*\s*\/>$/;
+  const isValid = regex.test(input);
+  const li = document.createElement('li');
+  li.textContent = `"${input}" is ` + (isValid ? 'Valid ' : 'invalid ');
+  results.appendChild(li);
+}
+</script>
+</body>
+</html>

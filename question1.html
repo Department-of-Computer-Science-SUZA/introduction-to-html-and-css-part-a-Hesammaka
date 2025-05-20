@@ -1,0 +1,46 @@
+<html >
+<head>
+    <title>To validate the Price</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      align-content: center;
+    }
+    #result {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    #result.valid {
+      color: #00ff37;
+    }
+    #result.invalid {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Validatoing Price</h1>
+  <input type="text" id="priceInput" placeholder="Enter a price (e.g. $00.00)" aligne="centre"/>
+  <button onclick="validationPrice()">Validate</button>
+  <div id="result"></div>
+  <script>
+    function validationPrice() {
+      const price = document.getElementById('priceInput').value.trim();
+      const regex = /^\$\d*\.{1}\d{2}$/;
+      const resultDiv = document.getElementById('result');
+      if (regex.test(price)) {
+        resultDiv.textContent = `"${price}" is a valid price.`;
+        resultDiv.className = 'valid';
+      } else {
+        resultDiv.textContent = `"${price}" is NOT a valid price.`;
+        resultDiv.className = 'invalid';
+      }
+    }
+  </script>
+</body>
+</html>
