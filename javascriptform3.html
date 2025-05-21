@@ -1,0 +1,154 @@
+<html>
+<head>
+<title>Credit Card Validator</title>
+<style>
+body {
+font-family: Arial, sans-serif; max-width: 600px;
+margin: 0 auto; padding: 20px;
+background-color: #f5f5f5;
+}
+.card-validator { background-color: white; padding: 25px;
+border-radius: 8px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1 {
+color: #333;
+text-align: center; margin-bottom: 25px;
+}
+.form-group {
+margin-bottom: 20px;
+}
+label {
+display: block; margin-bottom: 5px; font-weight: bold;
+}
+input[type="text"] { width: 100%;
+padding: 10px;
+border: 1px solid #ddd; border-radius: 4px; font-size: 16px;
+box-sizing: border-box;
+}
+button {
+background-color: #4CAF50; color: white;
+border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer;
+font-size: 16px; width: 100%;
+}
+button:hover {
+background-color: #45a049;
+}
+.result {
+margin-top: 20px; padding: 15px; border-radius: 4px; display: none;
+}
+.valid {
+background-color: #dff0d8;
+color: #3c763d;
+border: 1px solid #d6e9c6;
+}
+.invalid {
+background-color: #f2dede; color: #a94442;
+border: 1px solid #ebccd1;
+}
+.card-types { margin: 20px 0;
+border-collapse: collapse; width: 100%;
+}
+.card-types th, .card-types td { border: 1px solid #ddd; padding: 8px;
+text-align: left;
+}
+.card-types th {
+background-color: #f2f2f2;
+}
+</style>
+</head>
+<body>
+<section class="card-validator">
+<h1>Bank Card Checker</h1>
+<table class="card-types">
+<tr>
+<th>Type</th>
+<th>Prefix</th>
+<th>Digits</th>
+</tr>
+<tr>
+<td>American Express</td>
+<td>34, 37</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Master Card</td>
+<td>51-55</td>
+<td>16</td>
+</tr>
+<tr>
+<td>VISA</td>
+<td>4</td>
+<td>13, 16</td>
+</tr>
+<tr>
+<td>Discover</td>
+<td>6011</td>
+<td>15, 16</td>
+</tr>
+<tr>
+<td>Diners Club</td>
+<td>300-305</td>
+<td>14, 16</td>
+</tr>
+</table>
+<section class="form-group">
+<label for="cardNumber">Enter Your valid Card Number:</label>
+<input type="text" id="cardNumber" placeholder="Type your card number here">
+</section>
+<button onclick="validateCard()">Check Card</button>
+<section id="result" class="result"></section>
+</section>
+<script>
+function validateCard() {
+    const cardNumber = document.getElementById('cardNumber').value;
+    const resultDiv = document.getElementById('result');
+    const cleanedNumber = cardNumber.replace(/\D/g, '');
+    const cardRules = [
+        {
+            type: 'American Express',
+            pattern: /^3[47]\d{13}$/,
+            validLength: [15]
+        },
+        {
+            type: 'Master Card',
+            pattern: /^5[1-5]\d{14}$/,
+            validLength: [16]
+        },
+        {
+            type: 'VISA',
+            pattern: /^4\d{12}(\d{3})?$/,
+            validLength: [13, 16]
+        },
+        {
+            type: 'Discover',
+            pattern: /^6011\d{12}(\d{2})?$/,
+            validLength: [15, 16]
+        },
+        {
+            type: 'Diners Club',
+            pattern: /^30[0-5]\d{11}(\d{2})?$/,
+            validLength: [14, 16]
+        }
+    ];
+    if (cleanedNumber === '') {
+        showResult('Please enter your valid card number.', false);
+        return;
+    }
+    for (const rule of cardRules) {
+        if (rule.pattern.test(cleanedNumber) && rule.validLength.includes(cleanedNumber.length)) {
+            showResult(`This is a valid ${rule.type} card.`, true);
+            return;
+        }
+    }
+    showResult('Invalid card number. Please check and try again.', false);
+}
+function showResult(message, isValid) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.textContent = message;
+    resultDiv.className = 'result ' + (isValid ? 'valid' : 'invalid');
+    resultDiv.style.display = 'block';
+}
+</script>
+</body>
+</html>
